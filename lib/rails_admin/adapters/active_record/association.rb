@@ -34,7 +34,7 @@ module RailsAdmin
         end
 
         def foreign_key
-          association.foreign_key.to_sym
+          association.foreign_key.try(:to_sym) || association.foreign_key.map(&:to_sym)
         end
 
         def foreign_key_nullable?
