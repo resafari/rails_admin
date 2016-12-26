@@ -40,7 +40,12 @@ module RailsAdmin
       end
 
       def count(options = {}, scope = nil)
-        all(options.merge(limit: false, page: false), scope).count(:all)
+        if scope.nil?
+          c = ActiveRecord::Base.connection.execute %|SELECT reltuples FROM pg_class WHERE oid = '#{table_name}'::regclass;|
+          c.first["reltuples"].to_i
+        else
+          all(options.merge(limit: false, page: false), scope).count(:all)
+        end
       end
 
       def destroy(objects)
