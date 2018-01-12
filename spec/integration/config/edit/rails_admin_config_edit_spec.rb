@@ -716,7 +716,8 @@ describe 'RailsAdmin Config DSL Edit Section', type: :request do
       fill_in 'field_test_nested_field_tests_attributes_0_title', with: 'nested field test title 1 edited', visible: false
       find('#field_test_nested_field_tests_attributes_1__destroy', visible: false).set('true')
 
-      click_button 'Save'
+      # trigger click via JS, workaround for instability in CI
+      execute_script %($('button[name="_save"]').trigger('click');)
       is_expected.to have_content('Field test successfully updated')
 
       @record.reload
@@ -897,6 +898,18 @@ describe 'RailsAdmin Config DSL Edit Section', type: :request do
       field = RailsAdmin.config('Team').edit.fields.detect { |f| f.name == :founded }
       expect(field.properties.nullable?).to be_truthy
       expect(field.required?).to be_falsey
+    end
+  end
+
+  describe 'SimpleMDE Support' do
+    it 'adds Javascript to enable SimpleMDE' do
+      RailsAdmin.config Draft do
+        edit do
+          field :notes, :simple_mde
+        end
+      end
+      visit new_path(model_name: 'draft')
+      is_expected.to have_selector('textarea#draft_notes[data-richtext="simplemde"]')
     end
   end
 

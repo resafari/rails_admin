@@ -42,7 +42,7 @@ This problem was reported by SourceClear, Inc.
 
 ## Installation
 
-1. On your gemfile: `gem 'rails_admin', '~> 1.0'`
+1. On your gemfile: `gem 'rails_admin', '~> 1.2'`
 2. Run `bundle install`
 3. Run `rails g rails_admin:install`
 4. Provide a namespace for the routes when asked
@@ -50,7 +50,7 @@ This problem was reported by SourceClear, Inc.
 
 ## Configuration
 ### Global
-In `config/initializers/rails_admin`:
+In `config/initializers/rails_admin.rb`:
 
 [Details](https://github.com/sferik/rails_admin/wiki/Base-configuration)
 
